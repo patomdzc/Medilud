@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medilud — Referencia Clínica Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#00204A;--red:#D90416;--blue:#2175BF;--dark:#313131;--gray:#888;--light:#E5E5E5;--divider:#C8C8C8;--white:#FFF;--bg:#F7F8FA;--fh:'Montserrat',sans-serif;--fb:'Crimson Pro',serif;--shadow:0 2px 8px rgba(0,32,74,.08)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--fb);color:var(--dark);background:var(--bg);line-height:1.6;padding-bottom:60px}
+/* NAVBAR */
+.nav{background:var(--navy);padding:10px 24px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3);border-bottom:2px solid var(--red);flex-wrap:wrap}
+.nav-brand{font-family:var(--fh);font-weight:800;font-size:1.1rem;color:#fff;letter-spacing:.08em;text-transform:uppercase}
+.nav-tag{font-size:.6rem;color:rgba(255,255,255,.5);display:block;letter-spacing:.12em}
+.nav-tabs{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+.nav-tab{font-family:var(--fh);font-size:.72rem;font-weight:700;color:rgba(255,255,255,.7);padding:8px 14px;border:none;background:transparent;cursor:pointer;border-radius:6px;letter-spacing:.04em;text-transform:uppercase;transition:.2s}
+.nav-tab:hover{color:#fff;background:rgba(255,255,255,.1)}
+.nav-tab.active{color:#fff;background:var(--red)}
+.edit-btn{font-family:var(--fh);font-size:.7rem;font-weight:700;padding:8px 16px;border:2px solid rgba(255,255,255,.3);border-radius:6px;background:transparent;color:#fff;cursor:pointer;letter-spacing:.06em;transition:.2s;white-space:nowrap}
+.edit-btn.editing{border-color:#4CAF50;background:rgba(76,175,80,.2);color:#4CAF50}
+/* MAIN */
+.main{max-width:1280px;margin:0 auto;padding:24px}
+.main.editing{border:3px dashed #4CAF50;border-radius:12px}
+.section{display:none}.section.active{display:block}
+/* SUB TABS */
+.sub-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;border-bottom:2px solid var(--divider);padding-bottom:10px}
+.sub-tab{font-family:var(--fh);font-size:.7rem;font-weight:700;color:var(--gray);padding:8px 14px;border:none;background:transparent;cursor:pointer;border-bottom:3px solid transparent;text-transform:uppercase;letter-spacing:.05em;transition:.2s}
+.sub-tab:hover{color:var(--blue)}
+.sub-tab.active{color:var(--navy);border-bottom-color:var(--red)}
+.sub-panel{display:none}.sub-panel.active{display:block}
+/* SECTION HEADER */
+.sh{margin-bottom:20px}.sh h2{font-family:var(--fh);font-weight:800;font-size:1.4rem;color:var(--navy)}.sh p{color:var(--gray);font-size:.9rem}
+.sh-line{width:50px;height:3px;background:var(--red);margin:8px 0}
+/* CARDS GRID */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-bottom:24px}
+/* CARD */
+.card{background:#fff;border-radius:10px;box-shadow:var(--shadow);border:1px solid var(--divider);overflow:hidden;border-top:3px solid var(--navy)}
+.card-h{background:var(--navy);padding:14px 18px}
+.card-h::after{content:'';display:block;width:100%;height:2px;background:var(--red);margin-top:10px}
+.card-name{font-family:var(--fh);font-weight:800;font-size:.88rem;color:#fff;text-transform:uppercase;letter-spacing:.05em}
+.card-sub{font-family:var(--fh);font-size:.65rem;color:rgba(255,255,255,.5);margin-top:3px}
+.card-badge{display:inline-block;font-family:var(--fh);font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:6px;letter-spacing:.04em}
+.badge-green{background:#E8F5E9;color:#1E7B4B}.badge-amber{background:#FFF3E0;color:#C46B00}.badge-red{background:#FFEBEE;color:var(--red)}.badge-blue{background:#E3F2FD;color:var(--blue)}
+.card-b{padding:16px 18px}
+.card-label{font-family:var(--fh);font-size:.68rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;margin-top:12px}
+.card-label:first-child{margin-top:0}
+.card-text{font-size:.88rem;color:var(--dark);line-height:1.5}
+.card-ul{list-style:none;padding:0}.card-ul li{font-size:.85rem;padding:2px 0 2px 14px;position:relative;line-height:1.4}
+.card-ul li::before{content:"→";position:absolute;left:0;color:var(--red);font-size:.7rem;top:4px}
+.card-meta{display:flex;gap:12px;flex-wrap:wrap;background:var(--bg);border-radius:6px;padding:8px 12px;margin-top:12px;font-family:var(--fh);font-size:.7rem;color:var(--dark)}
+.card-meta strong{color:var(--navy)}
+.card-note{background:#FFF3E0;border-left:3px solid #C46B00;border-radius:0 6px 6px 0;padding:8px 12px;margin-top:10px;font-family:var(--fh);font-size:.7rem;color:#C46B00;font-weight:600}
+/* TABLES */
+.tbl-wrap{border-radius:8px;overflow-x:auto;border:1px solid var(--divider);margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+thead tr{background:var(--navy)}
+th{font-family:var(--fh);font-weight:700;font-size:.7rem;color:#fff;padding:10px 12px;text-align:left;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+tbody tr:nth-child(even){background:var(--light)}
+td{padding:8px 12px;border-bottom:1px solid var(--divider);vertical-align:top}
+td strong{color:var(--navy)}
+/* SPECS */
+.specs{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:16px}
+.spec{background:var(--bg);border-radius:6px;padding:10px 14px;border:1px solid var(--divider)}
+.spec-l{font-family:var(--fh);font-size:.65rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.spec-v{font-family:var(--fh);font-size:.82rem;font-weight:600;color:var(--navy)}
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--bg);border-radius:6px;padding:12px;border:1px solid var(--divider);text-align:center}
+.kpi-v{font-family:var(--fh);font-size:1.4rem;font-weight:800;color:var(--red);line-height:1}
+.kpi-l{font-family:var(--fh);font-size:.65rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.tag{font-family:var(--fh);font-size:.65rem;font-weight:600;padding:3px 10px;border-radius:20px;letter-spacing:.03em}
+.tag-blue{background:#E3F2FD;color:var(--blue)}.tag-green{background:#E8F5E9;color:#1E7B4B}.tag-red{background:#FFEBEE;color:var(--red)}.tag-navy{background:rgba(0,32,74,.08);color:var(--navy)}.tag-amber{background:#FFF3E0;color:#C46B00}
+/* CALLOUT */
+.callout{background:#E3F2FD;border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;margin-bottom:16px;font-size:.85rem}
+.callout.amber{background:#FFF3E0;border-color:#C46B00}.callout.red{background:#FFEBEE;border-color:var(--red)}
+.callout-t{font-family:var(--fh);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;color:var(--blue)}
+.callout.amber .callout-t{color:#C46B00}.callout.red .callout-t{color:var(--red)}
+/* FOOTER */
+.footer{background:var(--navy);color:rgba(255,255,255,.6);padding:20px 24px;text-align:center;font-size:.7rem;font-family:var(--fh);border-top:3px solid var(--red)}
+.footer b{color:rgba(255,255,255,.85)}
+@media(max-width:768px){.main{padding:16px}.grid{grid-template-columns:1fr}.nav{padding:8px 12px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+<div>
+<span class="nav-brand">MEDILUD</span>
+<span class="nav-tag">Trust That Transforms</span>
+</div>
+<div class="nav-tabs">
+<button class="nav-tab active" onclick="showSection('backbar',this)">Backbar ZO</button>
+<button class="nav-tab" onclick="showSection('protocolos',this)">Protocolos ZO</button>
+<button class="nav-tab" onclick="showSection('fichas',this)">Fichas Técnicas</button>
+<button class="nav-tab" onclick="showSection('catalogo',this)">Catálogo Productos</button>
+</div>
+<button class="edit-btn" onclick="toggleEdit(this)">✏️ Editar</button>
+</nav>
+<main class="main" id="mainContent">
+<!-- ═══════════ SECTION 1: BACKBAR ZO ═══════════ -->
+<div id="sec-backbar" class="section active">
+<div class="sh"><h2>ZO® Backbar — Referencia Clínica Completa</h2><div class="sh-line"></div><p>Guía técnica de programas de tratamiento y productos de cabina ZO Skin Health</p></div>
+<div class="sub-tabs">
+<button class="sub-tab active" onclick="showSub('backbar','programas',this)">Programas & Kits</button>
+<button class="sub-tab" onclick="showSub('backbar','limpiadores',this)">Limpiadores</button>
+<button class="sub-tab" onclick="showSub('backbar','exfoliantes',this)">Exfoliantes</button>
+<button class="sub-tab" onclick="showSub('backbar','mascarillas',this)">Mascarillas</button>
+<button class="sub-tab" onclick="showSub('backbar','prevencion',this)">Prevención + Corrección</button>
+<button class="sub-tab" onclick="showSub('backbar','hidratacion',this)">Hidratación + Protección</button>
+<button class="sub-tab" onclick="showSub('backbar','peeling',this)">Peeling Profesional</button>
+</div>
+<!-- PROGRAMAS -->
+<div id="backbar-programas" class="sub-panel active"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Daily Skincare Program</div><div class="card-sub">Programa de Cuidado Diario</div><span class="card-badge badge-green">Básico</span></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Mantenimiento general de la salud cutánea / Anti-edad preventivo</p><div class="card-label">Beneficios</div><ul class="card-ul"><li>Preserva un complexo de aspecto juvenil</li><li>Previene daño futuro protegiendo del sol</li><li>Mejora tono uniforme y poros refinados</li><li>Mantiene la hidratación cutánea</li></ul><div class="card-label">Contenido del Kit</div><ul class="card-ul"><li>Exfoliating Cleanser 60 mL</li><li>Exfoliating Polish 16.2 g</li><li>Complexion Renewal Pads 30 pzas.</li><li>Daily Power Defense 30 mL</li></ul></div></div>
+
+<div class="card"><div class="card-h"><div class="card-name">Anti-Aging Program</div><div class="card-sub">Programa Antiedad</div><span class="card-badge badge-amber">Moderado</span></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Envejecimiento temprano a moderado / Líneas de expresión / Daño solar</p><div class="card-label">Beneficios</div><ul class="card-ul"><li>Reduce líneas finas y arrugas</li><li>Promueve tono uniforme y poros refinados</li><li>Preserva complexo de aspecto juvenil</li></ul><div class="card-label">Contenido del Kit</div><ul class="card-ul"><li>Exfoliating Cleanser 60 mL</li><li>Exfoliating Polish 16.2 g</li><li>Complexion Renewal Pads 30 pzas.</li><li>Daily Power Defense 30 mL</li><li>Growth Factor Serum 30 mL</li></ul></div></div>
+
+<div class="card"><div class="card-h"><div class="card-name">Aggressive Anti-Aging Program</div><div class="card-sub">Programa Antiedad Intensivo</div><span class="card-badge badge-red">Intensivo</span></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Envejecimiento avanzado / Arrugas profundas / Flacidez / Hiperpigmentación</p><div class="card-label">Beneficios</div><ul class="card-ul"><li>Reduce arrugas profundas</li><li>Promueve tono uniforme</li><li>Fortalece la piel manteniendo hidratación</li></ul><div class="card-label">Contenido</div><ul class="card-ul"><li>Hydrating Cleanser 60 mL</li><li>Exfoliating Polish 16.2 g</li><li>Complexion Renewal Pads 30 pzas.</li><li>Daily Power Defense 30 mL</li><li>Radical Night Repair 30 mL</li><li>Renewal Crème 50 mL</li></ul></div></div>
+
+<div class="card"><div class="card-h"><div class="card-name">Pigment Control Program + HQ</div><div class="card-sub">Programa Control de Manchas + Hidroquinona</div><span class="card-badge badge-blue">Especializado</span></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Hiperpigmentación moderada-severa / Melasma / Manchas solares</p><div class="card-label">Beneficios</div><ul class="card-ul"><li>Trata melasma y manchas severas</li><li>Restaura brillo en piel seca y opaca</li><li>Resultados prolongados pre/post-procedimiento</li></ul><div class="card-label">Contenido</div><ul class="card-ul"><li>Gentle Cleanser 60 mL</li><li>Exfoliating Polish 16.2 g</li><li>Complexion Renewal Pads 30 pzas.</li><li>Pigment Control Crème 30 mL</li><li>Daily Power Defense 30 mL</li><li>Pigment Control + Blending Crème 30 mL</li></ul></div></div>
+
+<div class="card"><div class="card-h"><div class="card-name">Skin Brightening + Texture Repair</div><div class="card-sub">Programa Iluminador + Reparación de Textura</div><span class="card-badge badge-amber">Moderado</span></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Hiperpigmentación sin HQ / Post-tratamiento blanqueador / Líneas finas</p><div class="card-label">Contenido</div><ul class="card-ul"><li>1% Retinol Skin Brightener 30 mL</li><li>Brightalive® Skin Brightener 30 mL</li><li>Wrinkle + Texture Repair 30 mL</li><li>Daily Power Defense 30 mL</li></ul></div></div>
+
+<div class="card"><div class="card-h"><div class="card-name">Skin Brightening Program</div><div class="card-sub">Programa Iluminador</div><span class="card-badge badge-green">Básico</span></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Hiperpigmentación leve / Sin hidroquinona</p><div class="card-label">Contenido</div><ul class="card-ul"><li>Gentle Cleanser 60 mL</li><li>Exfoliating Polish 16.2 g</li><li>Complexion Renewal Pads 30 pzas.</li><li>Daily Power Defense 30 mL</li><li>Brightalive® Skin Brightener 30 mL</li></ul></div></div>
+
+<div class="card"><div class="card-h"><div class="card-name">Complexion Clearing Program</div><div class="card-sub">Programa Limpieza Profunda</div><span class="card-badge badge-blue">Especializado</span></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Piel grasa / Poros congestionados / Acné leve</p><div class="card-label">Contenido</div><ul class="card-ul"><li>Exfoliating Cleanser 200 mL</li><li>Exfoliating Polish 65 g</li><li>Complexion Renewal Pads 60 pzas.</li><li>Complexion Clearing Masque 85 g</li></ul></div></div>
+
+<div class="card"><div class="card-h"><div class="card-name">Redness Relief + Barrier Defense</div><div class="card-sub">Programa Alivio de Eritema</div><span class="card-badge badge-blue">Especializado</span></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Rosácea / Piel eritematosa y sensibilizada</p><div class="card-label">Contenido</div><ul class="card-ul"><li>Gentle Cleanser 60 mL</li><li>Exfoliating Polish 16.2 g</li><li>Calming Toner 50 mL</li><li>Daily Power Defense 30 mL</li><li>Rozatrol® 20 mL</li><li>Soothing Hydro Mist 100 mL</li></ul></div></div>
+</div></div>
+<!-- LIMPIADORES BACKBAR -->
+<div id="backbar-limpiadores" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Balancing Cleansing Emulsion</div><div class="card-sub">Emulsión Limpiadora Equilibrante · 300 mL</div></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Piel normal a sensibilizada y postprocedimiento</p><div class="card-label">Beneficios</div><ul class="card-ul"><li>Gel-leche que elimina sebo sin alterar barrera</li><li>Calma piel roja y con prurito</li><li>Libre de fragancias, colorantes y sulfatos</li></ul><div class="card-label">Ingredientes Clave</div><ul class="card-ul"><li>Surfactantes derivados del azúcar</li><li>Bisabolol y extracto de avena</li><li>Emolientes ligeros</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Hydrating Cleanser</div><div class="card-sub">Limpiador Hidratante · 960 mL · pH ~6.5</div></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Piel normal a seca</p><div class="card-label">Ingredientes Clave</div><ul class="card-ul"><li>Sodium hyaluronate, pantenol, glicerina</li><li>Alantoína</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Gentle Cleanser</div><div class="card-sub">Limpiador Suave · 960 mL · pH ~6.8</div></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Todo tipo de piel</p><div class="card-label">Ingredientes Clave</div><ul class="card-ul"><li>Sodium lauroyl oat amino acids</li><li>Glicerina</li><li>Extractos botánicos antioxidantes</li></ul></div></div>
+</div></div>
+<!-- EXFOLIANTES BACKBAR -->
+<div id="backbar-exfoliantes" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Exfoliating Polish</div><div class="card-sub">Pulidor Exfoliante · 186 g</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Cristales de magnesio para exfoliación física</li><li>Estimula circulación y renovación celular</li><li>Vitaminas A, C y E para protección antioxidante</li></ul><div class="card-label">Ingredientes Clave</div><ul class="card-ul"><li>Cristales de óxido de magnesio</li><li>Aceite de árbol de té</li><li>Vitamina C-ester</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Exfoliating Polish Activator</div><div class="card-sub">Activador · 960 mL · pH ~4.0</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Potencia la exfoliación y renovación</li><li>Disuelve cristales del Polish en 2 min</li></ul><div class="card-label">Ingrediente Clave</div><ul class="card-ul"><li>Ácido láctico</li></ul></div></div>
+</div></div>
+<!-- MASCARILLAS BACKBAR -->
+<div id="backbar-mascarillas" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Aloe Hydra Massage Gel and Masque</div><div class="card-sub">Gel Masaje con Aloe · 450 mL · pH ~6.3</div></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Todo tipo de piel — calmar e hidratar</p><div class="card-label">Ingredientes Clave</div><ul class="card-ul"><li>Flavonoides de menta, aloe vera, alantoína</li><li>Alga parda, sodium hyaluronate</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Complexion Clearing Masque</div><div class="card-sub">Mascarilla de Arcilla · 540 g · pH ~8.0</div></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Piel grasa y congestionada</p><div class="card-label">Ingredientes Clave</div><ul class="card-ul"><li>Azufre 10%</li><li>Caolín y bentonita</li><li>Glicerina</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Skin Brightening Sheet Masque</div><div class="card-sub">Mascarilla en Lámina · 50 pzas. · pH ~6.0</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Minimiza manchas y proporciona tono uniforme</li><li>Repone hidratación y calma</li><li>Protección antioxidante</li></ul><div class="card-label">Ingredientes Clave</div><ul class="card-ul"><li>Extracto de té verde</li><li>Glicerina, pantenol, eritritol</li><li>Aloe vera</li></ul></div></div>
+</div></div>
+<!-- PREVENCIÓN + CORRECCIÓN BACKBAR -->
+<div id="backbar-prevencion" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Growth Factor Serum</div><div class="card-sub">Sérum Factor de Crecimiento · 75 mL</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Mejora densidad y elasticidad</li><li>Integra factores de crecimiento vegetales con ZPRO®</li><li>Restaura hidratación</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Disodium acetyl glucosamine phosphate</li><li>Lactobacillus/panax ginseng</li><li>ZPRO®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Daily Power Defense</div><div class="card-sub">Defensa Diaria · 75 mL · pH ~6.75</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Defiende contra radicales libres</li><li>Reduce signos de inflamación</li><li>Acelera restauración de barrera</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>ZO-RRS2® (células madre edelweiss)</li><li>ZPOLY™ (polisacáridos vegetales)</li><li>Ceramida omega-6</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Enzymatic Peel</div><div class="card-sub">Peeling Enzimático · 75 mL · pH ~3.8</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Renovación suave sin exfoliación visible</li><li>Minimiza HPI</li><li>Acelera mejora de cualquier tratamiento ZO®</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Papaína, bromelaína, ácido glicólico</li><li>Aceite de kukui</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Retinol Skin Brightener</div><div class="card-sub">Iluminador con Retinol 1% · 25 sachets · pH ~6.0</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Mejora rápidamente tono desigual</li><li>Retinol encapsulado en oleosomas</li><li>Enfoque multi-vectorial para inhibir pigmento</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Retinol alta potencia</li><li>Bakuchiol</li><li>Ascorbyl glucoside, glutatión</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Firming Serum Accelerated</div><div class="card-sub">Sérum Tensor · Kit de 6 ampolletas · 8 mL c/u</div></div><div class="card-b"><div class="card-label">Ingredientes</div><ul class="card-ul"><li>ADN de sodio</li><li>ZCORE® (caprooyl tetrapeptide-3)</li><li>ZO-RRS2®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Rozatrol® Serum Accelerated</div><div class="card-sub">Sérum Rozatrol® · Kit de 6 ampolletas</div></div><div class="card-b"><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Algin hidrolizado</li><li>Lactosa y proteína de leche</li><li>ZO-RRS2®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Brightalive® Serum Accelerated</div><div class="card-sub">Sérum Brightalive® · Kit de 6 ampolletas</div></div><div class="card-b"><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Péptido drone inteligente</li><li>Ácido tranexámico, niacinamida</li><li>Papaína</li></ul></div></div>
+</div></div>
+<!-- HIDRATACIÓN BACKBAR -->
+<div id="backbar-hidratacion" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Renewal Crème</div><div class="card-sub">Crema Renovadora · 75 mL · pH ~6.0</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Reposición rápida de humedad</li><li>Apoya barrera cutánea</li><li>Suaviza líneas finas</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ectoína, glicerina, sodium hyaluronate</li><li>Avena, willowherb, plancton</li><li>Ácido poliglutámico</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Sunscreen + Primer SPF 30</div><div class="card-sub">Protector Solar + Primer · 75 mL</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Protección UVA/UVB y luz HEV</li><li>ZOX12® antioxidante 12h</li><li>Acabado sedoso mate con tinte universal</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Dióxido de titanio 1.0% + óxido de zinc 20.0%</li><li>Melanina</li><li>ZOX12®</li></ul></div></div>
+</div></div>
+<!-- PEELING BACKBAR -->
+<div id="backbar-peeling" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Peel Prep</div><div class="card-sub">Preparador · 120 mL · pH ~2.5</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Prepara y desengrasa para penetración óptima</li><li>Complejo iluminador</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ácido láctico</li><li>Ácido kójico, extracto de morera y regaliz</li></ul><div class="card-note">⚠️ Uso exclusivo con Stimulator Peel</div></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Stimulator Peel</div><div class="card-sub">Peeling Estimulador · 120 mL · pH ~3.5</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Ideal para primer peeling — sin downtime</li><li>Exfolia restaurando luminosidad</li><li>Reduce eritema visible</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ácido láctico, cítrico y glicólico</li><li>Beta-glucano y pimienta de Sichuan</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Peel Neutralizer</div><div class="card-sub">Neutralizador · 960 mL · pH ~8.5</div></div><div class="card-b"><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Bicarbonato de sodio</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">ZO 3-Step Peel®</div><div class="card-sub">Peeling ZO 3 Pasos® · Kit completo</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Mínimo a nulo downtime</li><li>Se puede repetir cada 3-4 semanas</li><li>Acné, hiperpigmentación, arrugas, poros</li></ul><div class="card-label">Ingredientes por Paso</div><ul class="card-ul"><li>PASO 1: Ácido salicílico 17% + TCA 10% + Láctico 5%</li><li>PASO 2: Retinol 6% + CoQ10 + ZO-RRS2®</li><li>PASO 3: Ophiopogon japonicus + ZOX12® + Beta-glucano</li></ul><div class="card-note">⚠️ Solo médico certificado o profesional capacitado</div></div></div>
+<div class="card"><div class="card-h"><div class="card-name">ZO Controlled Depth Peel®</div><div class="card-sub">Peeling de Profundidad Controlada®</div></div><div class="card-b"><div class="card-label">Indicación</div><p class="card-text">Melasma, flacidez, cicatrices, daño textural severo</p><div class="card-label">Concentraciones</div><ul class="card-ul"><li>20%: 2mL base + 4mL TCA 30%</li><li>26%: 1mL base + 8mL TCA 30%</li><li>28%: 0.5mL + 8mL TCA 30%</li></ul><div class="card-note">⚠️ Solo médico. TCA 30% NO incluido en kit.</div></div></div>
+</div></div>
+</div>
+<!-- ═══════════ SECTION 2: PROTOCOLOS ZO ═══════════ -->
+<div id="sec-protocolos" class="section">
+<div class="sh"><h2>Guía de Protocolos ZO® Skin Health</h2><div class="sh-line"></div><p>Programas faciales y no faciales de restauración — Referencia clínica</p></div>
+<div class="sub-tabs">
+<button class="sub-tab active" onclick="showSub('protocolos','gsr',this)">GSR®</button>
+<button class="sub-tab" onclick="showSub('protocolos','sensibilizada',this)">Piel Sensibilizada</button>
+<button class="sub-tab" onclick="showSub('protocolos','antienv',this)">Antienvejecimiento</button>
+<button class="sub-tab" onclick="showSub('protocolos','luminosidad',this)">Luminosidad</button>
+<button class="sub-tab" onclick="showSub('protocolos','grasa',this)">Grasa + Poros</button>
+<button class="sub-tab" onclick="showSub('protocolos','acne',this)">Acné</button>
+<button class="sub-tab" onclick="showSub('protocolos','eritema',this)">Eritema</button>
+<button class="sub-tab" onclick="showSub('protocolos','acond',this)">Acond. Pre-Proc.</button>
+<button class="sub-tab" onclick="showSub('protocolos','nofacial',this)">Área No Facial</button>
+<button class="sub-tab" onclick="showSub('protocolos','proteccion',this)">Protección Solar</button>
+<button class="sub-tab" onclick="showSub('protocolos','reacciones',this)">Reacciones</button>
+<button class="sub-tab" onclick="showSub('protocolos','pielsana',this)">Piel Saludable</button>
+</div>
+<!-- GSR -->
+<div id="protocolos-gsr" class="sub-panel active">
+<div class="sh"><h2>Paso 1 — Getting Skin Ready® (GSR®)</h2><p>Sistema de limpieza, exfoliación y tonificación que normaliza funciones de la piel</p></div>
+<div class="tbl-wrap"><table><thead><tr><th>Paso</th><th>Normal-Sensibilizada</th><th>Normal-Seca</th><th>Todos</th><th>Grasa/Acné</th></tr></thead><tbody>
+<tr><td><strong>Limpieza</strong></td><td>Balancing Cleansing Emulsion</td><td>Hydrating Cleanser</td><td>Gentle Cleanser</td><td>Exfoliating Cleanser</td></tr>
+<tr><td><strong>Exfoliación</strong></td><td>Exfoliating Polish 1-2×/sem</td><td>Exfoliating Polish 2-3×/sem</td><td>Exfoliating Polish 1×/día</td><td>Dual Action Scrub 1×/día</td></tr>
+<tr><td><strong>Tonificación</strong></td><td>Calming Toner</td><td>Calming Toner</td><td>Complexion Renewal Pads</td><td>Oil Control Pads + Acne Treatment</td></tr>
+</tbody></table></div>
+</div>
+<!-- SENSIBILIZADA -->
+<div id="protocolos-sensibilizada" class="sub-panel">
+<div class="callout"><div class="callout-t">Indicación</div>Piel débil y sensibilizada. Aplicar durante 2 CMQ (12 semanas) antes de protocolos dirigidos.</div>
+<div class="tbl-wrap"><table><thead><tr><th>Momento</th><th>1er CMQ (6 sem)</th><th>2do CMQ (6 sem)</th></tr></thead><tbody>
+<tr><td><strong>AM</strong></td><td>Daily Power Defense + Rozatrol®</td><td>Daily Power Defense + Rozatrol®</td></tr>
+<tr><td><strong>PM</strong></td><td>Daily Power Defense + Rozatrol® + Growth Factor Serum</td><td>Daily Power Defense + Rozatrol® + Radical Night Repair (según tolerancia)</td></tr>
+</tbody></table></div>
+</div>
+<!-- ANTIENVEJECIMIENTO -->
+<div id="protocolos-antienv" class="sub-panel">
+<div class="sh"><h2>Protocolo Antienvejecimiento</h2><p>4 niveles según severidad</p></div>
+<div class="tbl-wrap"><table><thead><tr><th>Nivel</th><th>Indicación</th><th>AM</th><th>PM</th></tr></thead><tbody>
+<tr><td><strong>Temprano</strong></td><td>Prevención, opacidad</td><td>Illuminating AOX + Vit C 10%</td><td>Daily Power Defense + Vit C 10%</td></tr>
+<tr><td><strong>Moderado</strong></td><td>Líneas persistentes, firmeza</td><td>Illuminating AOX + Firming Serum</td><td>DPD + Firming Serum + Growth Factor</td></tr>
+<tr><td><strong>Avanzado</strong></td><td>Fotodaño, arrugas</td><td>Illuminating AOX + Firming Serum</td><td>DPD + Firming Serum + Radical Night Repair</td></tr>
+<tr><td><strong>Severo</strong></td><td>Arrugas profundas, elastosis</td><td>Illuminating AOX + Firming Serum</td><td>DPD + Firming Serum + Complex A+</td></tr>
+</tbody></table></div>
+</div>
+<!-- LUMINOSIDAD -->
+<div id="protocolos-luminosidad" class="sub-panel">
+<div class="sh"><h2>Protocolo Luminosidad / Aclaramiento</h2><p>4 niveles para corrección de manchas</p></div>
+<div class="tbl-wrap"><table><thead><tr><th>Nivel</th><th>AM</th><th>PM</th></tr></thead><tbody>
+<tr><td><strong>Sin HQ — Leve</strong></td><td>Illuminating AOX + Brightalive® + Vit C 10%</td><td>DPD + Brightalive® + Vit C 10%</td></tr>
+<tr><td><strong>Sin HQ — Moderado</strong></td><td>Illuminating AOX + Brightalive® + Retinol Brightener</td><td>DPD + Brightalive® + Wrinkle+Texture</td></tr>
+<tr><td><strong>Con HQ — Severo</strong></td><td>Illuminating AOX + Pigment Control Crème</td><td>DPD + Pigment Control + Blending + Complex A+</td></tr>
+<tr><td><strong>Con HQ — Melasma Resist.</strong></td><td>Illuminating AOX + Pigment Control + Blending + Complex A+</td><td>DPD + Pigment Control + Blending + Complex A+</td></tr>
+</tbody></table></div>
+</div>
+<!-- GRASA -->
+<div id="protocolos-grasa" class="sub-panel">
+<div class="tbl-wrap"><table><thead><tr><th>Nivel</th><th>AM</th><th>PM</th></tr></thead><tbody>
+<tr><td><strong>Grasa + Poros</strong></td><td>Complexion Clarifying + DPD + Instant Pore Refiner</td><td>Clearing Masque 2-3×/sem + Clarifying + DPD + Enzymatic Peel</td></tr>
+<tr><td><strong>Grasa Severa</strong></td><td>Clarifying + DPD + Pore Refiner + Exfoliation Accelerator</td><td>Clarifying + DPD + Pore Refiner + Complex A+</td></tr>
+</tbody></table></div>
+</div>
+<!-- ACNE -->
+<div id="protocolos-acne" class="sub-panel">
+<div class="tbl-wrap"><table><thead><tr><th>Nivel</th><th>AM</th><th>PM</th></tr></thead><tbody>
+<tr><td><strong>Leve</strong></td><td>Clarifying + Exfoliation Accel. + DPD</td><td>Clearing Masque 2-3×/sem + Clarifying + DPD</td></tr>
+<tr><td><strong>Moderado</strong></td><td>Clarifying + Exfoliation Accel. + DPD</td><td>Clarifying + DPD + Retinol+Acne Complex</td></tr>
+<tr><td><strong>Severo</strong></td><td>Clarifying + Exfoliation Accel. + DPD + Retinol+Acne</td><td>Clarifying + DPD + Retinol+Acne Complex</td></tr>
+</tbody></table></div>
+</div>
+<!-- ERITEMA -->
+<div id="protocolos-eritema" class="sub-panel">
+<div class="tbl-wrap"><table><thead><tr><th>Nivel</th><th>AM</th><th>PM</th></tr></thead><tbody>
+<tr><td><strong>Leve</strong></td><td>Clarifying + DPD + Rozatrol®</td><td>Clarifying + Enzymatic Peel + DPD + Rozatrol®</td></tr>
+<tr><td><strong>Moderado</strong></td><td>Clarifying + Exfoliation Accel. + DPD + Rozatrol®</td><td>Clarifying + DPD + Rozatrol®</td></tr>
+<tr><td><strong>Severo</strong></td><td>Clarifying + Exfoliation Accel. + DPD + Rozatrol®</td><td>Clarifying + Complex A+ + DPD + Rozatrol®</td></tr>
+</tbody></table></div>
+</div>
+<!-- ACONDICIONAMIENTO -->
+<div id="protocolos-acond" class="sub-panel">
+<div class="callout amber"><div class="callout-t">Nota</div>Iniciar mínimo 4-6 semanas antes. Suspender 3-4 días antes del procedimiento.</div>
+<div class="tbl-wrap"><table><thead><tr><th>Tipo</th><th>AM</th><th>PM</th></tr></thead><tbody>
+<tr><td><strong>General</strong></td><td>Illuminating AOX</td><td>DPD + Retinol Brightener o Radical Night Repair o Complex A+</td></tr>
+<tr><td><strong>+ Control Pigmento</strong></td><td>Illuminating AOX + Pigment Control Crème</td><td>DPD + Pigment Control + Blending + Complex A+</td></tr>
+</tbody></table></div>
+</div>
+<!-- NO FACIAL -->
+<div id="protocolos-nofacial" class="sub-panel">
+<div class="tbl-wrap"><table><thead><tr><th>Programa</th><th>AM</th><th>PM</th></tr></thead><tbody>
+<tr><td><strong>Antienvejecimiento Leve</strong></td><td>Body Emulsion</td><td>Body Emulsion</td></tr>
+<tr><td><strong>Antienvejecimiento Moderado-Severo</strong></td><td>Body Emulsion + Wrinkle+Texture Repair</td><td>Body Emulsion + Retinol Skin Brightener</td></tr>
+<tr><td><strong>Luminosidad Leve</strong></td><td>Body Emulsion + Brightalive®</td><td>Body Emulsion + Wrinkle+Texture Repair</td></tr>
+<tr><td><strong>Luminosidad Moderado-Severo</strong></td><td>Body Emulsion + Brightalive®</td><td>Body Emulsion + Wrinkle+Texture Repair</td></tr>
+</tbody></table></div>
+</div>
+<!-- PROTECCIÓN SOLAR -->
+<div id="protocolos-proteccion" class="sub-panel">
+<div class="sh"><h2>Paso 3 — Protección Solar ZO®</h2><p>Triple-Spectrum Protection® UVA/UVB/HEV/IR-A</p></div>
+<div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Broad-Spectrum SPF 50</div><div class="card-sub">Mineral · Piel sensible y postprocedimiento</div></div><div class="card-b"><p class="card-text">Ligero, no irritante. Piel normal a seca.</p></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Sheer Fluid SPF 50</div><div class="card-sub">Mineral · 22% zinc oxide · Finish invisible</div></div><div class="card-b"><p class="card-text">Sin fragancia, ultra ligero. Todos los tonos.</p></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Sunscreen + Primer SPF 30</div><div class="card-sub">Mineral · Con primer · Finish mate</div></div><div class="card-b"><p class="card-text">Dual: protector solar + base de maquillaje.</p></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Sunscreen + Powder SPF 45</div><div class="card-sub">Mineral · Polvo · 3 tonos universales</div></div><div class="card-b"><p class="card-text">Para retoques. Acabado mate perfecto.</p></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Smart Tone SPF 50</div><div class="card-sub">Químico · Tono universal adaptable</div></div><div class="card-b"><p class="card-text">Microesferas de color que se ajustan a cualquier tono.</p></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Daily Sheer SPF 50</div><div class="card-sub">Químico · Outdoor · Resistente al agua</div></div><div class="card-b"><p class="card-text">Secado rápido, acabado mate. Resistente al agua y sudor.</p></div></div>
+</div></div>
+<!-- REACCIONES -->
+<div id="protocolos-reacciones" class="sub-panel">
+<div class="sh"><h2>Reacciones Esperadas</h2><p>Las reacciones iniciales son normales e indican reparación</p></div>
+<div class="tbl-wrap"><table><thead><tr><th>Fase</th><th>Nombre</th><th>Duración</th><th>Reacciones</th></tr></thead><tbody>
+<tr><td><strong>1. Reparación</strong></td><td>"¡Lo odio!"</td><td>Agresivo: 6 sem · Moderado: 8-12 sem · Leve: 12-20 sem</td><td>Enrojecimiento, resequedad, descamación, ardor</td></tr>
+<tr><td><strong>2. Mejora</strong></td><td>"Me empieza a gustar"</td><td>6 semanas</td><td>Menos severas, intensidad disminuye</td></tr>
+<tr><td><strong>3. Culminación</strong></td><td>"¡Me encanta!"</td><td>6 semanas</td><td>Mínimas o inexistentes</td></tr>
+</tbody></table></div>
+<div class="callout amber"><div class="callout-t">Control de Reacciones</div>Usar menos producto · Reducir frecuencia · Aplicar productos de Hidratación + Calma · Para eventos especiales: suspender 4 días antes.</div>
+</div>
+<!-- PIEL SALUDABLE -->
+<div id="protocolos-pielsana" class="sub-panel">
+<div class="sh"><h2>Definición de Piel Saludable ZO®</h2></div>
+<div class="specs">
+<div class="spec"><div class="spec-l">1</div><div class="spec-v">Suave y Tersa</div></div>
+<div class="spec"><div class="spec-l">2</div><div class="spec-v">Firme y Tensa</div></div>
+<div class="spec"><div class="spec-l">3</div><div class="spec-v">Tono Uniforme</div></div>
+<div class="spec"><div class="spec-l">4</div><div class="spec-v">Hidratada</div></div>
+<div class="spec"><div class="spec-l">5</div><div class="spec-v">Tolerante</div></div>
+<div class="spec"><div class="spec-l">6</div><div class="spec-v">Libre de Enfermedad</div></div>
+<div class="spec"><div class="spec-l">7</div><div class="spec-v">Contorno Normal</div></div>
+</div>
+<div class="callout"><div class="callout-t">Sistema de 3 Pasos ZO®</div>Step 1: GSR™ (Limpieza, Exfoliación, Tonificación) · Step 2: Prevenir + Corregir · Step 3: Protección Solar Triple-Spectrum®</div>
+</div>
+</div>
+<!-- ═══════════ SECTION 3: FICHAS TÉCNICAS ═══════════ -->
+<div id="sec-fichas" class="section">
+<div class="sh"><h2>Fichas Técnicas de Productos</h2><div class="sh-line"></div><p>Neauvia Devices · Neauvia Biofillers · ZO Skin Health</p></div>
+<div class="sub-tabs">
+<button class="sub-tab active" onclick="showSub('fichas','devices',this)">Devices</button>
+<button class="sub-tab" onclick="showSub('fichas','fillers',this)">Biofillers & Estimuladores</button>
+<button class="sub-tab" onclick="showSub('fichas','zofilosofia',this)">ZO Filosofía</button>
+</div>
+<!-- DEVICES -->
+<div id="fichas-devices" class="sub-panel active">
+<!-- ZAFFIRO -->
+<div class="card" style="margin-bottom:20px"><div class="card-h"><div class="card-name">ZAFFIRO — Advanced Platform</div><div class="card-sub">Smart Hydro + Thermo Deep · FDA Approved</div></div><div class="card-b">
+<p class="card-text">Plataforma avanzada que combina Smart Hydro (microinfusión needle-free) y Thermo Deep (calor infrarrojo dérmico). Produce neocolagénesis, redensificación dérmica y resultados inmediatos sin dolor.</p>
+<div class="kpis"><div class="kpi"><div class="kpi-v">+40%</div><div class="kpi-l">Fibroblastos 21 días</div></div><div class="kpi"><div class="kpi-v">+25%</div><div class="kpi-l">Elasticidad 1 sesión</div></div><div class="kpi"><div class="kpi-v">85%</div><div class="kpi-l">Satisfacción paciente</div></div><div class="kpi"><div class="kpi-v">17</div><div class="kpi-l">Áreas tratamiento</div></div></div>
+<div class="card-label">Smart Hydro — Especificaciones</div>
+<div class="specs"><div class="spec"><div class="spec-l">Velocidad</div><div class="spec-v">~200 m/s</div></div><div class="spec"><div class="spec-l">Partícula</div><div class="spec-v">5-200 micrones</div></div><div class="spec"><div class="spec-l">Presión LOW</div><div class="spec-v">4.5 bar (cara)</div></div><div class="spec"><div class="spec-l">Presión HIGH</div><div class="spec-v">8.0 bar (cuerpo)</div></div></div>
+<div class="card-label">Fórmulas Smart Hydro</div>
+<div class="tbl-wrap"><table><thead><tr><th>Fórmula</th><th>Indicación</th></tr></thead><tbody>
+<tr><td><strong>HA Skin Health</strong></td><td>Hidratación, antiedad</td></tr><tr><td><strong>Acne Formula</strong></td><td>Acné activo, cicatrices</td></tr><tr><td><strong>Soothing Skin</strong></td><td>Rosácea, piel sensible</td></tr><tr><td><strong>Skin Brightening</strong></td><td>Manchas, melasma</td></tr><tr><td><strong>Hair Nourishment</strong></td><td>Alopecia, fragilidad capilar</td></tr>
+</tbody></table></div>
+<div class="card-label">Thermo Deep — Especificaciones</div>
+<div class="specs"><div class="spec"><div class="spec-l">Longitud onda</div><div class="spec-v">750-1800 nm (pico 1020)</div></div><div class="spec"><div class="spec-l">Fluencia</div><div class="spec-v">5-75 J/cm² (inicio 20)</div></div><div class="spec"><div class="spec-l">Temp. objetivo</div><div class="spec-v">58-68°C</div></div><div class="spec"><div class="spec-l">Profundidad</div><div class="spec-v">Hasta 4 mm</div></div><div class="spec"><div class="spec-l">Enfriamiento</div><div class="spec-v">15-25°C (rec. 15°C)</div></div><div class="spec"><div class="spec-l">Vida aplicador</div><div class="spec-v">20,000 pulsos</div></div></div>
+</div></div>
+<!-- LASERME -->
+<div class="card" style="margin-bottom:20px"><div class="card-h"><div class="card-name">LASERME — Láser Fraccionado No Ablativo</div><div class="card-sub">Diodo 1470 nm · FDA 510(k) K230077</div></div><div class="card-b">
+<p class="card-text">Genera Zonas Microtérmicas en la dermis preservando la epidermis. Neocolagénesis fisiológica, downtime mínimo a cero, fototipos I-VI.</p>
+<div class="specs"><div class="spec"><div class="spec-l">Longitud onda</div><div class="spec-v">1470 nm</div></div><div class="spec"><div class="spec-l">Potencia máx</div><div class="spec-v">2 W</div></div><div class="spec"><div class="spec-l">Energía/MTZ</div><div class="spec-v">5-50 mJ</div></div><div class="spec"><div class="spec-l">Spot</div><div class="spec-v">12 × 12 mm</div></div><div class="spec"><div class="spec-l">Profundidad</div><div class="spec-v">0.5-0.6 mm</div></div><div class="spec"><div class="spec-l">Vida aplicador</div><div class="spec-v">50,000 scanners</div></div></div>
+<div class="tags"><span class="tag tag-blue">Arrugas</span><span class="tag tag-blue">Flacidez</span><span class="tag tag-blue">Poros</span><span class="tag tag-blue">Cicatrices acné</span><span class="tag tag-blue">Estrías</span><span class="tag tag-blue">Melasma (FDA)</span></div>
+</div></div>
+<!-- PLASMAIQ -->
+<div class="card" style="margin-bottom:20px"><div class="card-h"><div class="card-name">PLASMA IQ — Plasma Seguro y Portátil</div><div class="card-sub">Sublimación controlada · 40 kHz</div></div><div class="card-b">
+<p class="card-text">Genera plasma ionizando gas entre electrodo y piel mediante sublimación. Provoca daño controlado que tensa y retrae la piel con precisión.</p>
+<div class="specs"><div class="spec"><div class="spec-l">Sublimación LOW</div><div class="spec-v">650 V</div></div><div class="spec"><div class="spec-l">Sublimación HIGH</div><div class="spec-v">950 V</div></div><div class="spec"><div class="spec-l">Ablación LOW</div><div class="spec-v">1,100 V</div></div><div class="spec"><div class="spec-l">Ablación HIGH</div><div class="spec-v">1,400 V</div></div><div class="spec"><div class="spec-l">Frecuencia</div><div class="spec-v">40 kHz</div></div><div class="spec"><div class="spec-l">Autonomía</div><div class="spec-v">8 h</div></div></div>
+</div></div>
+<!-- SECTUM -->
+<div class="card" style="margin-bottom:20px"><div class="card-h"><div class="card-name">SECTUM — Radiofrecuencia Multipropuesta</div><div class="card-sub">Bipolar + Multipolar · 480 kHz · Smart Control</div></div><div class="card-b">
+<p class="card-text">Plataforma RF bipolar/multipolar con Smart Control integrado. Estética facial, corporal, ginecológica y quirúrgica.</p>
+<div class="specs"><div class="spec"><div class="spec-l">Frecuencias</div><div class="spec-v">480 kHz / 800 kHz / 1.7 MHz</div></div><div class="spec"><div class="spec-l">Potencia máx</div><div class="spec-v">100 W</div></div><div class="spec"><div class="spec-l">Profundidad 480kHz</div><div class="spec-v">13.3 mm</div></div><div class="spec"><div class="spec-l">Modos</div><div class="spec-v">Facial / Corporal / Ginecológico / Quirúrgico</div></div></div>
+</div></div>
+</div>
+<!-- FILLERS -->
+<div id="fichas-fillers" class="sub-panel">
+<div class="sh"><h2>Neauvia Organic — Tecnología SXT</h2><p>Smart Xross Linking Technology · HA PEGilizado</p></div>
+<div class="callout"><div class="callout-t">Tecnología PEG:SXT</div>Combina HA y polímeros PEG en una misma red. Todos contienen aminoácidos (Glicina y L-Prolina) para neocolagénesis. 7 resultados: efecto duradero, menos producto, reduce granuloma, menos edema, resultado natural, efecto sinérgico SCT, gran seguridad.</div>
+<div class="card-label">Tabla Comparativa SKUs</div>
+<div class="tbl-wrap"><table><thead><tr><th>Producto</th><th>HA mg/ml</th><th>CaHA</th><th>Jeringa</th><th>Aguja</th><th>Efecto</th></tr></thead><tbody>
+<tr><td><strong>INTENSE</strong></td><td>28</td><td>—</td><td>1×1ml</td><td>21G/22G</td><td>Estructura y lifting</td></tr>
+<tr><td><strong>INTENSE LV</strong></td><td>26</td><td>—</td><td>1×1ml</td><td>21G/22G</td><td>Voluminizador</td></tr>
+<tr><td><strong>INTENSE FLUX</strong></td><td>26</td><td>—</td><td>1×1ml</td><td>27-30G</td><td>Volumen en dermis</td></tr>
+<tr><td><strong>INTENSE LIPS</strong></td><td>24</td><td>—</td><td>1×1ml</td><td>27G</td><td>Labios y líneas</td></tr>
+<tr><td><strong>INTENSE RHEOLOGY</strong></td><td>22</td><td>—</td><td>1×1ml</td><td>27G</td><td>Líneas finas</td></tr>
+<tr><td><strong>INTENSE ROSE</strong></td><td>28</td><td>—</td><td>1×1ml</td><td>21G/22G</td><td>Zona íntima</td></tr>
+<tr><td><strong>STIMULATE</strong></td><td>26</td><td>1%</td><td>1×1ml</td><td>21G/22G</td><td>Bioestimulación + volumen</td></tr>
+<tr><td><strong>HYDRO DELUXE</strong></td><td>18</td><td>0.01%</td><td>2×2.5ml</td><td>30G</td><td>Calidad de piel</td></tr>
+</tbody></table></div>
+<div class="card-label">Gama Man</div>
+<div class="tbl-wrap"><table><thead><tr><th>Producto</th><th>HA</th><th>CaHA</th><th>Efecto</th></tr></thead><tbody>
+<tr><td><strong>INTENSE MAN</strong></td><td>28</td><td>—</td><td>Estructura y lifting</td></tr>
+<tr><td><strong>STIMULATE MAN</strong></td><td>28</td><td>1%</td><td>Volumen + bioestimulación</td></tr>
+<tr><td><strong>HYDRO DELUXE MAN</strong></td><td>18</td><td>0.01%</td><td>Calidad de piel</td></tr>
+</tbody></table></div>
+<div class="callout"><div class="callout-t">Hydro Deluxe — Producto Estrella SCT</div>Bio-regenerador con HA lineal alto PM + CaHA 0.01% + aminoácidos. Con Zaffiro Thermo Deep: +49% hidratación y +72% elasticidad a 150 días (Kubik et al., 2022).</div>
+</div>
+<!-- ZO FILOSOFIA -->
+<div id="fichas-zofilosofia" class="sub-panel">
+<div class="sh"><h2>ZO® Skin Health — Filosofía y Bases</h2><p>by Zein Obagi MD · Distribuidor Oficial: Medilud</p></div>
+<div class="card-label">8 Principios para Restaurar la Salud de la Piel</div>
+<div class="specs">
+<div class="spec"><div class="spec-l">1</div><div class="spec-v">Función de Barrera</div></div>
+<div class="spec"><div class="spec-l">2</div><div class="spec-v">Estimulación</div></div>
+<div class="spec"><div class="spec-l">3</div><div class="spec-v">Estabilización</div></div>
+<div class="spec"><div class="spec-l">4</div><div class="spec-v">Control de Sebo</div></div>
+<div class="spec"><div class="spec-l">5</div><div class="spec-v">Eliminar Inflamación Crónica</div></div>
+<div class="spec"><div class="spec-l">6</div><div class="spec-v">Superar Resistencia de la Piel</div></div>
+<div class="spec"><div class="spec-l">7</div><div class="spec-v">Hidratación y Alivio</div></div>
+<div class="spec"><div class="spec-l">8</div><div class="spec-v">Protección Solar Inteligente</div></div>
+</div>
+<div class="card-label">Sistema de 3 Pasos ZO®</div>
+<div class="specs">
+<div class="spec" style="border-top:3px solid var(--navy)"><div class="spec-l">Step 1</div><div class="spec-v">GSR™ — Limpieza, Exfoliación, Tonificación</div></div>
+<div class="spec" style="border-top:3px solid var(--blue)"><div class="spec-l">Step 2</div><div class="spec-v">Prevenir + Corregir</div></div>
+<div class="spec" style="border-top:3px solid var(--red)"><div class="spec-l">Step 3</div><div class="spec-v">Protección Solar Triple-Spectrum®</div></div>
+</div>
+</div>
+</div>
+<!-- ═══════════ SECTION 4: CATÁLOGO PRODUCTOS ═══════════ -->
+<div id="sec-catalogo" class="section">
+<div class="sh"><h2>Catálogo de Productos ZO Skin Health</h2><div class="sh-line"></div><p>Fichas técnicas completas por categoría</p></div>
+<div class="sub-tabs">
+<button class="sub-tab active" onclick="showSub('catalogo','clim',this)">Limpiadores</button>
+<button class="sub-tab" onclick="showSub('catalogo','cexf',this)">Exfoliadores</button>
+<button class="sub-tab" onclick="showSub('catalogo','cton',this)">Tónicos</button>
+<button class="sub-tab" onclick="showSub('catalogo','canti',this)">Antienvejecimiento</button>
+<button class="sub-tab" onclick="showSub('catalogo','cbri',this)">Iluminación</button>
+<button class="sub-tab" onclick="showSub('catalogo','cacne',this)">Acné</button>
+<button class="sub-tab" onclick="showSub('catalogo','cred',this)">Enrojecimiento</button>
+<button class="sub-tab" onclick="showSub('catalogo','chid',this)">Hidratación</button>
+<button class="sub-tab" onclick="showSub('catalogo','ceye',this)">Ojos</button>
+<button class="sub-tab" onclick="showSub('catalogo','cbody',this)">Cuerpo</button>
+<button class="sub-tab" onclick="showSub('catalogo','csun',this)">Protección Solar</button>
+</div>
+<!-- LIMPIADORES CAT -->
+<div id="catalogo-clim" class="sub-panel active"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Balancing Cleansing Emulsion</div><div class="card-sub">200 mL · Piel Normal a Sensibilizada</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Gel-leche que elimina sebo sin alterar barrera</li><li>Calma piel rojiza y con prurito</li><li>Libre de fragancias y sulfatos</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Surfactantes del azúcar, bisabolol, avena</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Hydrating Cleanser</div><div class="card-sub">200 mL · Piel Normal a Seca</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Elimina impurezas y maquillaje</li><li>Minimiza sequedad e irritación</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>HA, pantenol, glicerina, alantoína</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Gentle Cleanser</div><div class="card-sub">200 mL · Todo Tipo de Piel</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Limpieza suave, repone hidratación</li><li>Antioxidante y antiirritante</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Glicerina, mezcla botánica</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Exfoliating Cleanser</div><div class="card-sub">200 mL · Piel Normal a Grasa</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Limpieza + exfoliación simultánea</li><li>Descongestiona poros</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ésteres de jojoba, ácido salicílico, niacinamida</li></ul></div></div>
+</div></div>
+<!-- EXFOLIADORES CAT -->
+<div id="catalogo-cexf" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Exfoliating Polish</div><div class="card-sub">65 g · Todo Tipo de Piel</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Suaviza instantáneamente</li><li>Elimina células muertas, ilumina</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Cristales de magnesio, aceite árbol de té, vit C éster</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Dual Action Scrub</div><div class="card-sub">116 g · Piel Grasa / Acné</div></div><div class="card-b"><div class="card-label">Beneficios</div><ul class="card-ul"><li>Destruye bacterias del acné</li><li>Disuelve sebo excesivo</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ác. láctico, salicílico, árbol de té, ZO-RRS2®</li></ul></div></div>
+</div></div>
+<!-- TÓNICOS CAT -->
+<div id="catalogo-cton" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Complexion Renewal Pads</div><div class="card-sub">60 Toallitas · Todo Tipo</div></div><div class="card-b"><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ác. salicílico, glicólico, urea, botánicos</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Oil Control Pads Acne Treatment</div><div class="card-sub">60 Toallitas · Grasa / Acné</div></div><div class="card-b"><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ác. salicílico 2%, glicólico, mandélico</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Calming Toner</div><div class="card-sub">180 mL · Seca / Sensibilizada</div></div><div class="card-b"><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Hamamelis, ác. glicólico, pantenol, HA</li></ul></div></div>
+</div></div>
+<!-- ANTIENVEJECIMIENTO CAT -->
+<div id="catalogo-canti" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Daily Power Defense</div><div class="card-sub">50 mL · Todo Tipo</div></div><div class="card-b"><ul class="card-ul"><li>Defiende contra radicales libres</li><li>Reduce inflamación, restaura barrera</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>ZO-RRS2®, ZPOLY™, ceramida omega-6</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Illuminating AOX Serum</div><div class="card-sub">50 mL · Todo Tipo</div></div><div class="card-b"><ul class="card-ul"><li>Protección antioxidante avanzada</li><li>Luminosidad juvenil</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>ZOX12®, ZO-RRS2®, ZPOLY™, microminerales</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">10% Vitamin C Self-Activating</div><div class="card-sub">50 mL · Iluminación + Antienvejecimiento</div></div><div class="card-b"><ul class="card-ul"><li>Corrige pigmentación existente</li><li>Protección antioxidante múltiple</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ác. ascórbico 10%, vit E, CoQ10</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Wrinkle + Texture Repair</div><div class="card-sub">50 mL · Líneas Profundas</div></div><div class="card-b"><ul class="card-ul"><li>Ataca líneas profundas</li><li>Estimula colágeno y HA</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Retinol 0.5%, ZPRO®, ZCORE®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Radical Night Repair</div><div class="card-sub">60 mL · Arrugas y Daño Solar</div></div><div class="card-b"><ul class="card-ul"><li>Tensifica, alisa y firma</li><li>Peeling domiciliario avanzado</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Retinol 1%, pimienta de Sichuan, ZO-RRS2®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Complex A+</div><div class="card-sub">27 mL · Envejecimiento Severo · Terapia Pulso</div></div><div class="card-b"><ul class="card-ul"><li>Retinol máximo + bakuchiol</li><li>Alternativa a tretinoína</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Retinol 1.3% + bakuchiol, vit A, C, E</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Growth Factor Serum</div><div class="card-sub">30 mL · Envejecimiento Moderado</div></div><div class="card-b"><ul class="card-ul"><li>Mejora densidad y elasticidad</li><li>Restaura volumen juvenil</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Fosfato de acetilglucosamina, ZPRO®, beta-glucano</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Firming Serum</div><div class="card-sub">47 mL · Flacidez</div></div><div class="card-b"><ul class="card-ul"><li>Sinergía con colágeno y elastina</li><li>Fortalece unión dermoepidérmica</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>ADN de sodio, ZCORE®, ZO-RRS2®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Peptide Facial Refining</div><div class="card-sub">30 mL · Líneas + Volumen</div></div><div class="card-b"><ul class="card-ul"><li>Geometría facial equilibrada</li><li>Complemento ideal para inyectables</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Acetil octapéptido-3, hexapéptido-8, ZPOLY™</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Instant Pore Refiner</div><div class="card-sub">29 g · Refinamiento de Poros</div></div><div class="card-b"><ul class="card-ul"><li>Alisa textura, acabado mate</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Saliciloil fitoesfingosina, rosa canina, ZOX12®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Enzymatic Peel</div><div class="card-sub">50 mL · Renovación Suave</div></div><div class="card-b"><ul class="card-ul"><li>Exfoliación invisible</li><li>Repone hidratación y lípidos</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Papaína, bromelaína, ác. glicólico</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Exfoliation Accelerator</div><div class="card-sub">50 mL · AHA</div></div><div class="card-b"><ul class="card-ul"><li>Exfolia células opacas</li><li>Mejora penetración de activos</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ác. glicólico, manzanilla, aloe, escualano</li></ul></div></div>
+</div></div>
+<!-- ILUMINACIÓN CAT -->
+<div id="catalogo-cbri" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Brightalive® Skin Brightener</div><div class="card-sub">50 mL · Sin HQ ni Retinol</div></div><div class="card-b"><ul class="card-ul"><li>Iluminador multimodal</li><li>Desvanece manchas, tono uniforme</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Péptido drone, ác. tranexámico, niacinamida, ZOX12®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Retinol Skin Brightener</div><div class="card-sub">50 mL · Sin HQ · 0.25/0.5/1.0%</div></div><div class="card-b"><ul class="card-ul"><li>Acelera renovación superficial</li><li>Retinol encapsulado en oleosomas</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Retinol, bakuchiol, ascorbil glucósido, glutatión</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Pigment Control Crème</div><div class="card-sub">80 mL · HQ 4% · Rx Only</div></div><div class="card-b"><ul class="card-ul"><li>Corrige pigmentación existente</li><li>Suprime pigmentación futura</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Pigment Control + Brightening</div><div class="card-sub">81 mL · HQ 4% + Ác. ascórbico 20% · Rx</div></div><div class="card-b"><ul class="card-ul"><li>Aborda manchas resistentes</li><li>Corrección potenciada</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Pigment Control + Blending</div><div class="card-sub">80 mL · HQ 4% + Ác. glicólico · Rx</div></div><div class="card-b"><ul class="card-ul"><li>Mezcla gradual de hiperpigmentación</li><li>Usar con Complex A+ o tretinoína PM</li></ul></div></div>
+</div></div>
+<!-- ACNÉ CAT -->
+<div id="catalogo-cacne" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Complexion Clarifying Serum</div><div class="card-sub">50 mL · Mixta / Grasa</div></div><div class="card-b"><ul class="card-ul"><li>Reduce brillo y congestión en 2 sem</li><li>Sin fragancias ni alcohol</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ác. salicílico, Z-SEB3™, ZO-RRS2®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Complexion Clearing Masque</div><div class="card-sub">85 g · Grasa / Congestionada</div></div><div class="card-b"><ul class="card-ul"><li>Ataca imperfecciones, reduce sebo</li><li>Uso puntual sobre imperfecciones</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Azufre 10%, glicerina, caolín, bentonita</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Retinol + Acne Complex</div><div class="card-sub">50 mL · Acné Moderado-Severo</div></div><div class="card-b"><ul class="card-ul"><li>Elimina acné y previene futuras imperfecciones</li><li>Mejora cicatrices de acné</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Retinol 1%, ác. salicílico 2%, ZO-RRS2®</li></ul></div></div>
+</div></div>
+<!-- ENROJECIMIENTO CAT -->
+<div id="catalogo-cred" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Rozatrol®</div><div class="card-sub">50 mL · Piel Enrojecida y Sensibilizada</div></div><div class="card-b"><div class="card-label">Ataca 5 Síntomas de Rosácea</div><ul class="card-ul"><li>Inflamación</li><li>Renovación celular disminuida</li><li>Exceso de sebo</li><li>Telangiectasias</li><li>Neuroenvejecimiento</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Lactosa + proteína de leche + brócoli</li><li>ZO-RRS2®, ZPOLY™, papaína</li></ul></div></div>
+</div></div>
+<!-- HIDRATACIÓN CAT -->
+<div id="catalogo-chid" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Soothing Hydro Mist</div><div class="card-sub">100 mL · Post-Procedimiento</div></div><div class="card-b"><ul class="card-ul"><li>Reduce enrojecimiento hasta 68%</li><li>Calma piel sensitized y post-tx</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Piperonilglucósido, HA multiPM, ZPOLY™</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Renewal Crème</div><div class="card-sub">50 mL · Sequedad Leve</div></div><div class="card-b"><ul class="card-ul"><li>Hidratación rápida, textura ligera, apta acné</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ectoína, glicerina, HA, avena, retinol</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Recovery Crème</div><div class="card-sub">50 mL · Sequedad Moderada / Cuello</div></div><div class="card-b"><ul class="card-ul"><li>Rejuvenece piel frágil incluido cuello</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ceramida NG, escualano, ZCORE®, retinol</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Hydrating Crème</div><div class="card-sub">113 g · Sin Retinol · Sequedad Severa / Eczema</div></div><div class="card-b"><ul class="card-ul"><li>Normaliza barrera, reduce prurito</li><li>Estimula HA natural</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Ophiopogon japonicus, avena coloidal, ZOX12®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Astringent Solution Powder</div><div class="card-sub">6 g · Post-Procedimiento</div></div><div class="card-b"><ul class="card-ul"><li>Compresa que calma e hidrata</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Sulfato de aluminio, proteínas, quitosano, HA</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Soothing Ointment</div><div class="card-sub">50 mL · Post-Procedimiento</div></div><div class="card-b"><ul class="card-ul"><li>Regeneración celular, previene costras</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Fosfato de acetilglucosamina, avena, beta-glucano</li></ul></div></div>
+</div></div>
+<!-- OJOS CAT -->
+<div id="catalogo-ceye" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Intense Eye Crème</div><div class="card-sub">15 mL · Textura y Elasticidad</div></div><div class="card-b"><ul class="card-ul"><li>Péptidos + retinol estimulan colágeno</li><li>Unifica tono para ojeras</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Retinol, palmitoil tripéptido-1, mica</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Eye Brightening Crème</div><div class="card-sub">15 g · Iluminación + Puffiness</div></div><div class="card-b"><ul class="card-ul"><li>Ataca ojeras y reduce hinchazón</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Retinol, ZPRO®, kojic dipalmitato, cafeína</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Growth Factor Eye Serum</div><div class="card-sub">15 mL · Sin Retinol · Volumen</div></div><div class="card-b"><ul class="card-ul"><li>Estimula colágeno y fibroblastos</li><li>Aplicador refrescante</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Fosfato de acetilglucosamina, ZPRO®, HA acetilado</li></ul></div></div>
+</div></div>
+<!-- CUERPO CAT -->
+<div id="catalogo-cbody" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Body Emulsion</div><div class="card-sub">240 mL · Antienvejecimiento Corporal</div></div><div class="card-b"><ul class="card-ul"><li>Renovación celular, tono uniforme</li><li>Hidratación reconfortante</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Retinol, papaína, diacetil bodline</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Body Smoothing Crème</div><div class="card-sub">150 g · Tonificación</div></div><div class="card-b"><ul class="card-ul"><li>Apariencia más tonificada y suave</li><li>Disminuye piel de naranja</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>Extracto de plancton, cafeína, betaína</li></ul></div></div>
+</div></div>
+<!-- PROTECCIÓN SOLAR CAT -->
+<div id="catalogo-csun" class="sub-panel"><div class="grid">
+<div class="card"><div class="card-h"><div class="card-name">Sunscreen + Primer SPF 30</div><div class="card-sub">30 mL · Mineral · Primer + Tono Universal</div></div><div class="card-b"><ul class="card-ul"><li>UVA/UVB/HEV/IR-A</li><li>Base de maquillaje</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>TiO₂ 1% + ZnO 20%, melanina, ZOX12®</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Broad-Spectrum SPF 50</div><div class="card-sub">118 g · Mineral · Sensible/Post-Tx</div></div><div class="card-b"><ul class="card-ul"><li>Calma y protege</li></ul><div class="card-label">Ingredientes</div><ul class="card-ul"><li>TiO₂ 5.7% + ZnO 4.9%, melanina, bisabolol</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Sheer Fluid SPF 50</div><div class="card-sub">50 mL · Mineral · ZnO 22% · Sin Fragancia</div></div><div class="card-b"><ul class="card-ul"><li>Finish invisible en todos los tonos</li><li>Ultra ligero</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Sunscreen + Powder SPF 45</div><div class="card-sub">3 g · Mineral · Polvo · 3 Tonos</div></div><div class="card-b"><ul class="card-ul"><li>Retoque en cualquier momento</li><li>Acabado mate luminoso</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Smart Tone SPF 50</div><div class="card-sub">45 mL · Químico · Tono Universal</div></div><div class="card-b"><ul class="card-ul"><li>Bronce dorado adaptable</li></ul></div></div>
+<div class="card"><div class="card-h"><div class="card-name">Daily Sheer SPF 50</div><div class="card-sub">45 mL · Químico · Outdoor</div></div><div class="card-b"><ul class="card-ul"><li>Resistente al agua 40 min</li><li>Acabado mate</li></ul></div></div>
+</div></div>
+</div>
+</main>
+<footer class="footer">
+<b>Laboratorios Medilud SAPI de CV</b> · <em>"Trust That Transforms"</em><br>
+contacto@medilud.com.mx · medilud.com.mx · Ciudad de México<br>
+<span style="font-size:.58rem;color:rgba(255,255,255,.3)">#PublicidadDirigidaaProfesionalesDeLaSalud — Material de uso exclusivo para profesionales de la salud. Registro Sanitario conforme a normativa COFEPRIS vigente.</span>
+</footer>
+<script>
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function showSub(section,sub,btn){
+  const parent=document.getElementById('sec-'+section);
+  parent.querySelectorAll('.sub-panel').forEach(p=>p.classList.remove('active'));
+  parent.querySelectorAll('.sub-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(section+'-'+sub).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleEdit(btn){
+  const main=document.getElementById('mainContent');
+  const editing=btn.classList.toggle('editing');
+  main.classList.toggle('editing',editing);
+  main.contentEditable=editing;
+  btn.textContent=editing?'✅ Guardando...':'✏️ Editar';
+  if(editing){btn.textContent='🔓 Editando';}
+  else{btn.textContent='✏️ Editar';}
+}
+</script>
+</body>
+</html>
