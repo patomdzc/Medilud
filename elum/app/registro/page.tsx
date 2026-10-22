@@ -42,12 +42,12 @@ const PALETTES = [
   {
     id: "taller",
     name: "Taller",
-    bg: "#F2F1EE",
+    bg: "#FFFFFF",
     ink: "#0B0B0B",
     alert: "#E04A0A",
     alertName: "Naranja de seguridad",
     why: "Es el naranja de las herramientas de medición. Se siente de oficio y de precisión física, no de software. Se usa solo en cifras grandes.",
-    contrast: "Naranja sobre gris 3.6:1 (solo cifras ≥ 24 px)",
+    contrast: "Naranja sobre blanco 4.1:1 (solo cifras ≥ 24 px)",
   },
 ];
 
@@ -125,8 +125,9 @@ export default function RegistroPage() {
           <figure className="rg-tile rg-tile--wide">
             <Registro id="logo-pos" className="rg-tile__mark" />
           </figure>
-          <figure className="rg-tile rg-tile--wide rg-tile--stone">
-            <Registro id="logo-stone" className="rg-tile__mark" />
+          <figure className="rg-tile rg-tile--wide">
+            <Registro id="logo-live" drift={0.35} className="rg-tile__mark" title="Elum, logo vivo con Score 64" />
+            <figcaption>Logo vivo · así se ve en el reporte de una clínica con Score 64</figcaption>
           </figure>
           <figure className="rg-tile rg-tile--icons">
             <div className="rg-icons">

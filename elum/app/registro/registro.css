@@ -39,7 +39,6 @@
 
 .rg-tile { margin: 0; border: 1px solid var(--hair); padding: 40px; display: flex; flex-direction: column; justify-content: center; gap: 24px; }
 .rg-tile figcaption { font-size: 13px; color: var(--grey); }
-.rg-tile--stone { background: #f2f1ee; border-color: #f2f1ee; }
 .rg-tile__mark { width: 78%; height: auto; margin: 0 auto; display: block; }
 .rg-logo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .rg-tile--wide { min-height: 300px; }
@@ -122,7 +121,7 @@
 .rh-nav__cta { border: 1.5px solid var(--ink); font-weight: 600; }
 .rh-title { font-stretch: 112%; font-weight: 700; font-size: clamp(30px, 5.4cqi, 76px); line-height: 1; letter-spacing: -0.03em; margin: 9cqi 0 6cqi; max-width: 16ch; }
 .rh-big { width: 100%; height: auto; display: block; }
-.rh-btn:hover { background: #f2f1ee; }
+.rh-btn:hover { text-decoration: underline; text-underline-offset: 5px; }
 .rh-foot { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-top: 4cqi; flex-wrap: wrap; }
 .rh-foot p { margin: 0; font-size: 16px; line-height: 1.45; max-width: 40ch; }
 .rh-btn { background: transparent; border: 2px solid var(--ink); color: var(--ink) !important; text-decoration: none; min-height: 52px; padding: 0 24px; display: inline-flex; align-items: center; font-weight: 600; font-stretch: 112%; }
