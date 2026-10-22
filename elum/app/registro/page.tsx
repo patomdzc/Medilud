@@ -29,14 +29,15 @@ const PALETTES = [
     contrast: "Magenta sobre blanco 4.6:1",
   },
   {
-    id: "vial",
-    name: "Vial de noche",
-    bg: "#0B0B0B",
-    ink: "#F2F1EE",
-    alert: "#E6E23A",
-    alertName: "Amarillo vial",
-    why: "Es el líquido de un nivel de burbuja. Sobre negro se lee como un instrumento encendido: serio, preciso y con una sola luz.",
-    contrast: "Amarillo sobre negro 14.3:1",
+    id: "marcatextos",
+    name: "Marcatextos",
+    bg: "#FFFFFF",
+    ink: "#0B0B0B",
+    alert: "#F5E642",
+    alertName: "Amarillo marcatextos",
+    highlight: true,
+    why: "La cifra sigue en tinta; el color va detrás, como cuando el médico subraya un valor en su estudio. Es el gesto más humano de los tres.",
+    contrast: "Tinta sobre amarillo 15:1",
   },
   {
     id: "taller",
@@ -124,14 +125,14 @@ export default function RegistroPage() {
           <figure className="rg-tile rg-tile--wide">
             <Registro id="logo-pos" className="rg-tile__mark" />
           </figure>
-          <figure className="rg-tile rg-tile--wide rg-tile--ink">
-            <Registro id="logo-neg" className="rg-tile__mark" color="#F2F1EE" />
+          <figure className="rg-tile rg-tile--wide rg-tile--stone">
+            <Registro id="logo-stone" className="rg-tile__mark" />
           </figure>
           <figure className="rg-tile rg-tile--icons">
             <div className="rg-icons">
               {[96, 48, 32, 16].map((s) => (
                 <div key={s} className="rg-icon" style={{ width: s, height: s, borderRadius: s * 0.22 }}>
-                  <Registro id={`ico-${s}`} text="E" className="rg-icon__svg" color="#F2F1EE" />
+                  <Registro id={`ico-${s}`} text="E" className="rg-icon__svg" />
                 </div>
               ))}
             </div>
@@ -214,8 +215,10 @@ export default function RegistroPage() {
               </div>
               <div className="rg-pal__metric">
                 <span>Costo por hora de cabina</span>
-                <Registro id={`pal-${p.id}-n`} text="1840" drift={0.9} color={p.alert} className="rg-pal__num" />
-                <span style={{ color: p.id === "taller" ? p.ink : p.alert }} className="rg-pal__state">
+                <span className="rg-pal__numwrap" style={p.highlight ? { background: p.alert } : undefined}>
+                  <Registro id={`pal-${p.id}-n`} text="1840" drift={0.9} color={p.highlight ? p.ink : p.alert} className="rg-pal__num" />
+                </span>
+                <span style={{ color: p.id === "imprenta" ? p.alert : p.ink }} className="rg-pal__state">
                   Fuera de rango
                 </span>
               </div>
